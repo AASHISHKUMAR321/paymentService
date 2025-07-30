@@ -3,8 +3,6 @@ import app from "./app"
 import { PORT } from "./env"
 
 
-configDotenv()
-
 class Server {
 
     private port: number | string

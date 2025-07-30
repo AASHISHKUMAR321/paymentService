@@ -1,6 +1,8 @@
 import express , { Express ,Request,Response } from "express"
 import cors  from 'cors'
 import cookieParser from 'cookie-parser'
+import { db } from "./db"
+import { users } from "./db/schema"
 class Server{
     app:Express
 
@@ -21,11 +23,17 @@ class Server{
     }
 
     private routes(){
-        this.app.use('/',(req:Request,res:Response)=>{
+        this.app.get('/', (req: Request, res: Response) => {
             res.send('this is a home route')
         })
-        this.app.use('/health',(req:Request,res:Response)=>{
+        this.app.get('/health', (req: Request, res: Response) => {
                 res.status(200).send("server is running")
+        })
+        this.app.get('/users', async (req, res) => {
+            let data = await db.query.users.findMany()
+            console.log('data', data)
+            res.send({ "users": data })
+
         })
     }
 
